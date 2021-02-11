@@ -12,16 +12,31 @@ img {
 }
 
 body {
-    font-size: 20px;
+    font-size: 10px;
     line-height: 1.32;
     font-family: 'Open Sans', sans-serif;
     color: #44414D;
     background-color: #44414D;
 }
 
+.h2 {
+  position: absolute;
+  top: 5rem;
+  left: 50%;
+  margin-bottom: 1rem;
+  transform: translateX(-50%);
+  font-size: 1.60rem;
+  font-weight: 600;
+}
+
+#userWon, #pcWon {
+    font-size: 1.2rem;
+    color: #A90404;
+}
+
 .restartGame {
     position: absolute;
-    bottom: 20px;
+    bottom: 1rem;
     display: flex;
     flex-direction: row;
     left: 50%;
@@ -29,6 +44,8 @@ body {
 }
 
 .restartGame a {
+    font-size: 1rem;
+    font-weight: 600;
     text-decoration: none;
     color: #2c2b2b; 
 }
@@ -45,21 +62,21 @@ body {
     top: 50%;
     transform: translateX(-50%) translateY(-50%);
     padding: 40px 0;
-    width: 800px;
-    height: 500px;
+    width: 30rem;
+    height: 30rem;
     background-color: #b2aec0; 
 }
 
 
 .ttt-winner {
     position: relative;
-    padding: 10px 10px;
+    padding: 0.3rem 0;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    width: 300px;
+    width: 30rem;
     font-weight: 600;
     color: #343435;
 
@@ -69,7 +86,7 @@ body {
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    padding: 40px 0;
+    padding: 2rem 0;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -89,7 +106,7 @@ body {
     justify-content: center;
     align-items: center;
     /* border-radius: 50%; */
-    border: solid 3px #363636;
+    border: solid 0.15rem #363636;
     background-color: #e7dfdf;
     cursor: pointer;
     margin: 1px;

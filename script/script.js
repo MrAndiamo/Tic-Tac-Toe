@@ -1,4 +1,3 @@
-
 /**
  * Tac a poition to make a move in the game
  * 
@@ -40,29 +39,60 @@ function tacPosition(id) {
             // Check if there is a position left to tac
             if(chosenTotal.length != 9 && checkUserWinnings != true) {
 
-                var random = true;
-                if(userChosen.length > 1) {
+                // corner- and center-positions
+                var corners = Array(0,2,6,8);
+                var centers = Array(1,3,5,7);
 
-                    // check if the user has chosen an almost winning combination
-                    var pcChoice = checkIfAlmostWon(pcChosen, 'userChosen');       
+                var random = true;
+
+                // check if the user has chosen an almost winning combination and choose the remaining position to block the win
+                var pcChoice = checkIfAlmostWon(pcChosen, 'userChosen');       
+                if(pcChoice !== false) {
+                    random = false;
+                    pcChosen.push(pcChoice);
+                }
+                
+                // Check if the PC almost won and choose the winning position if true
+                if(random === true) {
+                    var pcChoice = checkIfAlmostWon(userChosen, 'pcChosen');
                     if(pcChoice !== false) {
                         random = false;
                         pcChosen.push(pcChoice);
-                    } else {
-                        var pcChoice = checkIfAlmostWon(userChosen, 'pcChosen');        
-                        if(pcChoice !== false) {
-                            random = false;
-                            pcChosen.push(pcChoice);
-                        }
                     }
                 }
 
+                // If the user has played his first move but it wasn't in the center, place the PC's first move in the center 
+                if(userChosen.length == 1 && !document.getElementById('ttt-position-4').classList.contains('userChosen')) {
+                    pcChoice = 4;
+                    random = false;
+                    pcChosen.push(pcChoice);
+                }
+                
+                // Random roll
                 if(random == true) {
+
+
                     // Let the OC choose random
                     var pcChoice = -1;
                     while(pcChoice < 0) {
                         // Roll a random number between 0 and 8
                         var randomRoll = Math.floor((Math.random() * 8));
+
+                        // When user's first move is in the center, place the PC's first move in a corner
+                        if(userChosen.length == 1 && document.getElementById('ttt-position-4').classList.contains('userChosen')) {
+                            var randomRoll = corners[Math.floor((Math.random() * corners.length))];
+                        }
+
+                        // When user has made 2 moves
+                        if(userChosen.length == 2) {
+                            
+                            // if user has first 2 moves in the corners, play randomly in a center. Else play in a corner 
+                            if(corners.indexOf(userChosen[0]) !== -1 && corners.indexOf(userChosen[1]) !== -1) {
+                                var randomRoll = centers[Math.floor((Math.random() * centers.length))];
+                            } else {
+                                var randomRoll = corners[Math.floor((Math.random() * corners.length))];
+                            }
+                        }
 
                         // Check if position is already chosen by player or pc
                         if(chosenTotal.indexOf(randomRoll) == -1) {
@@ -77,66 +107,72 @@ function tacPosition(id) {
                 if(checkWinnings(pcChosen) == true) {
                     document.getElementById('pcWon').classList.remove("hidden");
                 }
-                
+
                 // Add pcChoice to the position on the board
                 document.getElementById('ttt-position-' + pcChoice).classList.add('pcChosen');
             }
 
         }
-    
     }
-
 }
 
 
 
-
 /**
+ * Check if the user has almost won
  * 
- * @param {array} userChosen 
+ * @param {array} chosen
+ * @param {string} className
+ * 
+ * @return {int|bool} 
  */
 function checkIfAlmostWon(chosen, className) {
 
-    // Get winCombinations
-    var winCombinations = getWinCombinations();
-    
-    // Loop through winCombinations
-    for(winComboCounter=0; winComboCounter < winCombinations.length; winComboCounter++) {
+    if(chosen.length > 1) {
+        // Get winCombinations
+        var winCombinations = getWinCombinations();
         
-        var winCombination = winCombinations[winComboCounter];
-        
-        // Loop through winCombination
-        for(winCheckCounter = 0; winCheckCounter < winCombination.length; winCheckCounter++) {
-
-            for(userCounter = 0; userCounter < chosen.length; userCounter++) {
-                                
-                if(winCombination[winCheckCounter] == chosen[userCounter]) {
-                    const winComboIndex = winCombination.indexOf(chosen[userCounter]);
-                    winCombination.splice(winComboIndex, 1);
-                }
-            }
+        // Loop through winCombinations
+        for(winComboCounter=0; winComboCounter < winCombinations.length; winComboCounter++) {
             
+            var winCombination = winCombinations[winComboCounter];
+            
+            // Loop through winCombination
+            for(winCheckCounter = 0; winCheckCounter < winCombination.length; winCheckCounter++) {
 
-            // If only 1 winPosition is left, there is a winChance, so block it
-            if(winCombination.length == 1) {
+                for(userCounter = 0; userCounter < chosen.length; userCounter++) {
+                                    
+                    if(winCombination[winCheckCounter] == chosen[userCounter]) {
+                        const winComboIndex = winCombination.indexOf(chosen[userCounter]);
+                        winCombination.splice(winComboIndex, 1);
+                    }
+                }
                 
-                // Check that PC has NOT already played on that position
-                if(!document.getElementById('ttt-position-' + winCombination[0]).classList.contains(className)) {
-                    return winCombination[0];
+
+                // If only 1 winPosition is left, there is a winChance, so block it
+                if(winCombination.length == 1) {
+                    
+                    // Check that PC has NOT already played on that position
+                    if(!document.getElementById('ttt-position-' + winCombination[0]).classList.contains(className)) {
+                        return winCombination[0];
+                    }
                 }
             }
-
         }
-        
     }
+
     return false;
 }
 
 
 
 /**
+ * Get positions chosen of either pc or user
  * 
- * @param {string} className 
+ * @param {string} className
+ * @param {array} 
+ * 
+ * @returns {array}
  */
 function getChosenPositions(className) {
     var chosen = document.getElementsByClassName(className);
@@ -145,37 +181,36 @@ function getChosenPositions(className) {
         chosenTotal.push(parseInt(chosen[i].id.replace('ttt-position-', '')));
     }
     return chosenTotal;
-
 }
+
+
 /**
  * Check if user or pc has won based on the chosen positions
  *  
- * @param {array} chosen 
+ * @param {array} chosen
+ * 
  * @returns {boolean}
  */
 function checkWinnings(chosen) {
 
+    // Get wincombinations
     var winCombinations = getWinCombinations();
     var win = false;
 
-    if(chosen != null) {
-                
-        // Check winnings if more than 2 positions are chosen
-        if(chosen.length > 2) {
-
-            for(winCheckCounter=0; winCheckCounter < winCombinations.length; winCheckCounter++) {
-            
-                if(chosen.indexOf(winCombinations[winCheckCounter][0]) != -1 && chosen.indexOf(winCombinations[winCheckCounter][1]) != -1 && chosen.indexOf(winCombinations[winCheckCounter][2]) != -1){
-                    win = true;
-                }
-
-            }
-
-        }
+    // Check winnings if more than 2 positions are chosen
+    if(chosen != null && chosen.length > 2) {
         
+        chosen.sort();
+        
+        // Loop through winCombinations
+        for(winComboCounter=0; winComboCounter < winCombinations.length; winComboCounter++) {
+        
+            if(chosen.indexOf(winCombinations[winComboCounter][0]) !== -1 && chosen.indexOf(winCombinations[winComboCounter][1]) !== -1 && chosen.indexOf(winCombinations[winComboCounter][2]) !== -1){
+                win = true;
+            }   
+        }
     }
     return win;
-
 }
 
 

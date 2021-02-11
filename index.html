@@ -1,35 +1,50 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="discription" content="Game of Tic Tac Toe">
-        <meta name="author" content="Tim van den Dries">
-        <title>Tic Tac Toe</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="discription" content="Game of Tic Tac Toe." />
+    <meta name="author" content="Tim van den Dries" />
+    
+    
+    <!-- Facebook Metatags -->
+    <meta property="og:title" content="Tic, Tac, Toe." />
+    <meta property="og:description" content="Game of Tic, Tac Toe." />
+    <meta property="og:author" content="Tim van den Dries" />
+    <meta property="og:image" content="img/facebook3.jpg" />
+    
+    <!-- Twitter Metatags -->
+    <meta name="twitter:title" content="Tic, Tac, Toe." />
+    <meta name="twitter:description" content="Game of Tic Tac Toe." />
+    <meta name="twitter:image" content="img/twitter.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:author" content="Tim van den Dries" />
+    
+    <title>Tic, Tac, Toe By Tim</title>
 
-            
-        <link href="css/style.css" rel="stylesheet" type="text/css" />
-        <script src="script/script.js"></script> 
-
-    </head>
-    <body>
         
-        <div class="ttt-game">
-            <div class="ttt-board">
-                <script>
-                    for (i = 0; i < 9; i++) { 
-                        document.write('<div class="ttt-position" id="ttt-position-'+ i +'" onclick="tacPosition('+ i +')"></div>');
-                    }
-                </script>
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <script src="script/script.js"></script> 
 
-                <div id="userWon" class="ttt-winner hidden">YOU WON!</div>
-                <div id="pcWon" class="ttt-winner hidden">COMPUTER WON!</div>
-                
-                
-            </div>
-            <div class="restartGame"><a href="index.html">restart game</a></div>
+</head>
+<body>
+    <div class="h2">Tic, Tac, Toe by Tim</div>
+    <div class="ttt-game">
+        <div class="ttt-board">
+            <script>
+                for (i = 0; i < 9; i++) { 
+                    document.write('<div class="ttt-position" id="ttt-position-'+ i +'" onclick="tacPosition('+ i +')"></div>');
+                }
+            </script>
+
+            <div id="userWon" class="ttt-winner hidden">YOU WON!</div>
+            <div id="pcWon" class="ttt-winner hidden">COMPUTER WON!</div>
+            
+            
         </div>
+        <div class="restartGame"><a href="index.html">restart game</a></div>
+    </div>
 
 
-    </body>
-    </html>
+</body>
+</html>
