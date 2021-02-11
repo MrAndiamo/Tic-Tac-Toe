@@ -19,12 +19,31 @@ body {
     background-color: #44414D;
 }
 
-.ttt-game {
-    position: relative;
+.restartGame {
+    position: absolute;
+    bottom: 20px;
     display: flex;
     flex-direction: row;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%);   
+}
+
+.restartGame a {
+    text-decoration: none;
+    color: #2c2b2b; 
+}
+
+.restartGame a:hover {
+    text-decoration:underline;
+}
+
+.ttt-game {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
     padding: 40px 0;
     width: 800px;
     height: 500px;
@@ -56,7 +75,7 @@ body {
     flex-wrap: wrap;
     justify-content: start;
     align-items: center;
-    width: 300px;
+    width: 306px;
     height: 300px;
 }
 
@@ -65,27 +84,34 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: start;
-    align-items: center;
     width: 100px;
     height: 100px;
     justify-content: center;
     align-items: center;
-    border-radius: 50%;
-    border: solid 6px black;
+    /* border-radius: 50%; */
+    border: solid 3px #363636;
+    background-color: #e7dfdf;
     cursor: pointer;
+    margin: 1px;
 }
 
 .ttt-position.userChosen {
-    background-color: red;
+    /* background-color: red; */
     cursor:unset;
+    background-image: url('../img/circle.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 80%;
 }
 
 .ttt-position.pcChosen {
-    background-color: black;
+    /* background-color: black; */
     cursor:unset;
+    background-image: url('../img/cross.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 80%;
 }
-
 
 .hidden {
     display: none;
